@@ -1,0 +1,19 @@
+services:
+  remix:
+    build: .
+    ports:
+    - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
