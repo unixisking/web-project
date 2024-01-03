@@ -10,9 +10,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum USER_ROLE {
+  USER
+  ADMIN
+}
+
 model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
-  name         String?
-  passwordHash String
+  id                Int                 @id @default(autoincrement())
+  username          String              @unique
+  passwordHash      String
+  defaultLang       Language?           @relation(fields: [languageId], references: [id])
+  role              USER_ROLE           @default(USER)
+  languageId        Int?
+  TranslatedConcept TranslatedConcept[]
+}
+
+model Language {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  nativeName        String
+  code              String              @unique
+  User              User[]
+  TranslatedConcept TranslatedConcept[]
+}
+
+model Concept {
+  id                Int                 @id @default(autoincrement())
+  components        Component[]
+  domain            Domain              @relation(fields: [domainId], references: [id])
+  domainId          Int
+  slug              String              @unique
+  TranslatedConcept TranslatedConcept[]
+}
+
+model TranslatedConcept {
+  id               Int      @id @default(autoincrement())
+  name             String
+  description      String
+  original         Boolean  @default(false)
+  conceptPhotoPath String
+  concept          Concept  @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+  conceptId        Int
+  lang             Language @relation(fields: [languageId], references: [id])
+  languageId       Int
+  author           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int
+}
+
+model Component {
+  id                  Int                   @id @default(autoincrement())
+  Concept             Concept               @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+  conceptId           Int
+  TranslatedComponent TranslatedComponent[]
+}
+
+model TranslatedComponent {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  component   Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  componentId Int
+}
+
+model Domain {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Concept Concept[]
 }

@@ -1,32 +1,57 @@
-import { Link } from "@remix-run/react";
+import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { Link, useActionData } from "@remix-run/react";
+import { AuthorizationError } from "remix-auth";
+import { authenticator } from "~/services/auth.server";
+
+import type { LoginError } from "~/utils/types";
+
+
+export async function action({ request }: ActionFunctionArgs) {
+    let formData = await request.formData();
+    try {
+        return await authenticator.authenticate("form", request, {
+            successRedirect: '/dashboard',
+            throwOnError: true,
+            context: { formData }
+        })
+    } catch (error) {
+        if (error instanceof Response) return error;
+        if (error instanceof AuthorizationError) {
+            // bad auth credentials
+            console.log('Auth Error')
+            return json({ error: true, type: 'LoginCredentials', message: 'Your username or password is not correct.' }, { status: 401 })
+        }
+        return error
+    }
+    // error related to something else
+}
 
 export default function LoginPage() {
+    const response = useActionData<LoginError>()
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <img
-                        className="mx-auto h-10 w-auto"
-                        src="/logo.svg"
-                        alt="Your Company"
-                    />
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Sign in to your account
                     </h2>
                 </div>
 
+                {response?.error && response?.type === 'LoginCredentials' && (
+                    <p className="text-center text-sm text-red-500">{response?.message}</p>
+                )}
+
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form action="/login" className="space-y-6" method="POST">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                Email address
+                                Username
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
+                                    id="username"
+                                    name="username"
+                                    type="username"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -44,7 +69,6 @@ export default function LoginPage() {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete="current-password"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />

@@ -36,3 +36,18 @@ Make sure to deploy the output of `remix build`
 
 - `build/`
 - `public/build/`
+
+# App notes
+
+Users can propose a concept, concepts have domains like Biology, can provide an image/illustration for the concept and its components
+support multilang
+
+# Routes
+
+/login
+/register
+/dashboard
+/dashboard/concept/id
+/dashboard/concept/add
+/dashboard/users/
+/dashboard/settings
