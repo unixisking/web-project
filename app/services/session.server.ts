@@ -9,7 +9,8 @@ export const sessionStorage = createCookieSessionStorage(
             // Security reasons, prevent Document.cookie in the client, make this cookie http only to mitigate cross-site scripting XSS attacks.
             httpOnly: true,
             secrets: [process.env.AUTH_SECRET || ''], // replace this with an actual secret
-            secure: process.env.NODE_ENV === "production", // enable this in prod only
+            // secure: process.env.NODE_ENV === "production", // enable this in prod only
+            secure: false
         }
     }
 )
