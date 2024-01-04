@@ -8,7 +8,7 @@
     "dev": "PORT=3000 remix dev --manual",
     "start": "remix-serve ./build/index.js",
     "seed": "tsx ./app/utils/seed.ts",
-    "postinstall": "npm run seed",
+    "postinstall": "npx prisma db push && npm run seed",
     "typecheck": "tsc"
   },
   "dependencies": {

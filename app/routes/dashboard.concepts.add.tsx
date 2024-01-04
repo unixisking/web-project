@@ -44,8 +44,6 @@ export async function action({ request }: ActionFunctionArgs) {
             author: currentUser?.username
         } as IConceptPayload;
 
-        console.log('payload:', payload)
-
         // Validate form
         ConceptPayloadSchema.parse(payload)
 
@@ -53,7 +51,7 @@ export async function action({ request }: ActionFunctionArgs) {
         return redirect(`/dashboard/concepts/${record.slug}`)
     }
     catch (error) {
-        console.log('error catched', error)
+        console.log('error', error)
         // Form validation error
         if (error instanceof z.ZodError) {
             await concept_photo?.remove()

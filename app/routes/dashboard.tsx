@@ -6,7 +6,6 @@ import BreadCrumb from "~/components/breadcrumb";
 import Dropdown from "~/components/dropdown";
 import SideNav from "~/components/sidenav";
 import { authenticator } from "~/services/auth.server";
-import { dropDownLinks } from "~/utils/constants";
 
 type Session = {
     id: string;
