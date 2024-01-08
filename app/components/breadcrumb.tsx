@@ -9,7 +9,6 @@ type BreadCrumbRoute = {
 
 export default function BreadCrumb() {
     const matches = useMatches()
-    console.log('matches bread', matches)
     const routes = useMemo(() =>
         matches
             .map(match => getRouteBasedonMatch(match.pathname))

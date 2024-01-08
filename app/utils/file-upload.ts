@@ -16,7 +16,6 @@ export const uploadHandler = (directory: string) => unstable_composeUploadHandle
 export const deleteFileByPath = async (dir: string, filename: string) => {
     try {
         const filepath = path.join(process.cwd(), dir, filename)
-        console.log('filepath to be deleted', filepath)
         try {
             await fs.promises.access(filepath)
         }

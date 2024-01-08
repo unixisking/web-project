@@ -11,9 +11,6 @@ export async function fetchAvailableLanguages(slug: string | undefined) {
     const allLanguages = await fetchLanguages();
     const concepts = (await fetchLangsBySlug(slug)).TranslatedConcept
 
-    console.log('concepts', concepts)
-    console.log('all langs', allLanguages)
-
     for (const i in allLanguages) {
         const language = allLanguages[i];
         const isLanguageAvailable = concepts.every(concept => concept.lang.code != language.code);

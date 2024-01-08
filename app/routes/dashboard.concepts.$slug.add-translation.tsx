@@ -44,7 +44,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
             author: currentUser?.username
         } as IConceptPayload;
 
-        console.log('payload:', payload)
 
         // Validate form
         ConceptPayloadSchema.parse(payload)
@@ -53,7 +52,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         return redirect(`/dashboard/concepts/${record.concept.slug}`)
     }
     catch (error) {
-        console.log('error catched', error)
+        console.log('error creating a translation', error)
         // Form validation error
         if (error instanceof z.ZodError) {
             await concept_photo?.remove()
@@ -75,8 +74,6 @@ export default function AddConceptPage() {
     const [fileInputName, setFileInputName] = useState<string | null>(null)
     const actionData = useActionData<typeof action>()
     const langs = useLoaderData<typeof loader>()
-    console.log('actionData', actionData)
-    console.log('avail langs', langs)
     return (
         <Form
             method="post" encType='multipart/form-data'>

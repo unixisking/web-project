@@ -10,7 +10,6 @@ import { navigation } from '~/utils/constants'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const lang = new URL(request.url).searchParams.get('lang');
-    console.log('lang', lang)
     if (lang) return await fetchTranslationBySlugAndLang(params.slug, lang)
     return await fetchConceptBySlug(params.slug)
 }

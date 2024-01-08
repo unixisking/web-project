@@ -56,7 +56,6 @@ export const createConcept = async (data: IConceptPayload) => {
 // }
 
 export const createTranslation = async (slug: string | undefined, data: IConceptPayload) => {
-    console.log('slug method', slug)
     const record = await prisma.translatedConcept.create(
         {
             data: {
@@ -85,7 +84,6 @@ export const createTranslation = async (slug: string | undefined, data: IConcept
 
         }
     )
-    console.log('record created', record)
     return record
 }
 

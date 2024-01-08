@@ -18,7 +18,6 @@ export async function action({ request }: ActionFunctionArgs) {
         if (error instanceof Response) return error;
         if (error instanceof AuthorizationError) {
             // bad auth credentials
-            console.log('Auth Error')
             return json({ error: true, type: 'LoginCredentials', message: 'Your username or password is not correct.' }, { status: 401 })
         }
         return error
@@ -28,7 +27,6 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function LoginPage() {
     const response = useActionData<LoginError>()
-    console.log('hellologin')
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

@@ -8,16 +8,13 @@ import { Button } from "~/components/button"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const lang = new URL(request.url).searchParams.get('lang');
-    console.log('lang', lang)
     if (lang) return await fetchTranslationBySlugAndLang(params.slug, lang)
     return await fetchConceptBySlug(params.slug)
 }
 
 export default function Concept() {
     const concept = useLoaderData<ReturnType<typeof fetchConceptBySlug> | ReturnType<typeof fetchConceptBySlug>>();
-    console.log('concept', concept)
     const params = useParams()
-    console.log('translation', concept.concept.TranslatedConcept)
     return (
         <div>
             <div className="space-x-4 w-2/3">

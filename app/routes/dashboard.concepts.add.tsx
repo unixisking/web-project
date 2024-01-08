@@ -73,8 +73,6 @@ export default function AddConceptPage() {
     const [fileInputName, setFileInputName] = useState<string | null>(null)
     const actionData = useActionData<typeof action>()
     const langs = useLoaderData<typeof loader>()
-    console.log('actionData', actionData)
-    console.log('langs', langs)
     return (
         <Form
             method="post" encType='multipart/form-data'>
